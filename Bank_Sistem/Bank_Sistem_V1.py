@@ -9,40 +9,52 @@ Escolha uma Opção:
 saldo = 0
 limite = 500
 extrato = ""
-numero_saques = 0
+numero_saques = 1
 LIMITE_SAQUES = 3
+saques_total = 0
 
 while True:
     opcao = input(menu)
     
     if opcao == "1":
-        valor_deposito = int(input("Qual o valor do deposito? "))
-        if valor_deposito >= 0:
-            saldo += valor_deposito
-        else:
-            print("Valor inválido")
-            
+        
+        while opcao == "1":
+            valor_deposito = int(input("Qual o valor do deposito? "))
+            if valor_deposito >= 0:
+                saldo += valor_deposito
+                print("\nDeposito Realizado!\n")
+                opcao = input("Deseja fazer outro deposito? [1]sim, [2]nao\n")
+            else:
+                print("Valor inválido")
+                
     elif opcao == "2": 
-        print(f"Seu saldo é {saldo}")
+        print(f"Seu saldo é {saldo:.2f}\n")
+        
         if saldo <= 0:
             print("Não é possível sacar você nao tem saldo em conta!")
         else:
-            while numero_saques < LIMITE_SAQUES:
+            while numero_saques < LIMITE_SAQUES and opcao == "2":
                 saques = int(input("Digite o valor para o saque: "))
-                numero_saques +=1
-                if saques > 500:
+                
+                if saques > 500 or saques < 0:
                     print("Valor inválido! O limite para saque é de R$500,00")
+                else:
+                    opcao = input(f"Você tem {LIMITE_SAQUES-numero_saques} restantes. [2]Fazer outro [0]Sair\n")
+                
+                saques_total += saques
+                numero_saques +=1
     
     elif opcao == "3":
         print(f"""
               ===EXTRATO===
-              Valor depositado: {valor_deposito}
-              Numeros de saques realizados: {numero_saques}
-              Valor total sacado: {saques}
-              Saldo Atual: {saldo:.2f}              
+              Valor depositado: {saldo:.2f}
+              Numeros de saques realizados: {numero_saques-1}
+              Valor total sacado: {saques_total:.2f}
+              Saldo Atual: {(saldo-saques_total):.2f}              
               """)
                 
     elif opcao == "4":
         break
+  
     else:
         print("Opção Inválida! Tente novamente!")
