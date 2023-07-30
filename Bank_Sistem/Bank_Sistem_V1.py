@@ -19,39 +19,51 @@ while True:
     if opcao == "1":
         
         while opcao == "1":
-            valor_deposito = int(input("Qual o valor do deposito? "))
+
+            valor_deposito = float(input("Qual o valor do deposito? "))
+
             if valor_deposito >= 0:
                 saldo += valor_deposito
+
                 print("\nDeposito Realizado!\n")
-                opcao = input("Deseja fazer outro deposito? [1]sim, [2]nao\n")
+
+                opcao = input("Deseja fazer outro deposito? [1]sim [2]nao\n")
+
+                extrato += f"Deposito: R${valor_deposito:.2f}\n"
+
             else:
                 print("Valor inválido")
                 
     elif opcao == "2": 
-        print(f"Seu saldo é {saldo:.2f}\n")
+        print(f"Seu saldo é R${saldo:.2f}")
         
         if saldo <= 0:
             print("Não é possível sacar você nao tem saldo em conta!")
+
         else:
-            while numero_saques < LIMITE_SAQUES and opcao == "2":
-                saques = int(input("Digite o valor para o saque: "))
+            while numero_saques <= LIMITE_SAQUES and opcao == "2":
+
+                saques = float(input("Digite o valor para o saque: "))
                 
                 if saques > 500 or saques < 0:
-                    print("Valor inválido! O limite para saque é de R$500,00")
+                    print("Valor inválido! \nO limite para saque é de R$500,00")
+
                 else:
-                    opcao = input(f"Você tem {LIMITE_SAQUES-numero_saques} restantes. [2]Fazer outro [0]Sair\n")
-                
-                saques_total += saques
-                numero_saques +=1
+                    print("\nSaque Realizado!\n")
+                    opcao = input(f"Você tem {LIMITE_SAQUES-numero_saques} saques restantes. \n[2]Fazer outro [0]Sair\n")
+                    numero_saques +=1
+                    extrato += f"Saque: R${saques:.2f}\n"
+                    saques_total += saques
+
+
     
     elif opcao == "3":
-        print(f"""
-              ===EXTRATO===
-              Valor depositado: {saldo:.2f}
-              Numeros de saques realizados: {numero_saques-1}
-              Valor total sacado: {saques_total:.2f}
-              Saldo Atual: {(saldo-saques_total):.2f}              
-              """)
+        
+        print(f"========EXTRATO========")     
+        print("Não foram realizadas movimentações" if not extrato else extrato)
+        print(f"Numeros de saques realizados: {numero_saques-1}")
+        print(f"Saldo Atual: R${(saldo-saques_total):.2f}")              
+        print("========================")
                 
     elif opcao == "4":
         break
